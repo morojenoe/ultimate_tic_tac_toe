@@ -1,11 +1,19 @@
 #ifndef STRATEGY_RNG_H
 #define STRATEGY_RNG_H
 
-struct RNG {
-  RNG(int seed = 1);
+#include <random>
 
-  void init(int seed);
-  int next();
+class RNG {
+public:
+  RNG(unsigned long long seed = 1);
+
+  void Init(unsigned long long seed);
+  int NextInt();
+  int NextInt(int from, int to);
+  double NextDouble();
+
+private:
+  static std::mt19937 rng;
 };
 
 #endif //STRATEGY_RNG_H

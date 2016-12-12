@@ -4,9 +4,8 @@
 #include <algorithm>
 
 #include "position.h"
-#include "rng.h"
-#include "IBot.h"
-#include "RandomBot.h"
+#include "bots/IBot.h"
+#include "bots/RandomBot.h"
 
 using namespace std;
 
@@ -16,17 +15,17 @@ using namespace std;
 #define dbgx(x) {cerr << #x << " = " << x << endl;}
 #define dbg(...) {fprintf(stderr, __VA_ARGS__); fflush(stderr);}
 #else
-#define dbgx(x) {}
+#define dbgx(r) {}
 #define dbg(...) {}
 #endif
 
 
 void place_move(const pos &p) {
-  printf("place_move %d %d\n", p.y, p.x);
+  printf("place_move %d %d\n", p.c, p.r);
   fflush(stdout);
 }
 
-vector<std::string> &split(const char * const s, char delim, std::vector<std::string> &elems) {
+vector<string> &split(const char * const s, char delim, vector<string> &elems) {
   stringstream ss(s);
   string item;
   elems.clear();
@@ -36,15 +35,14 @@ vector<std::string> &split(const char * const s, char delim, std::vector<std::st
   return elems;
 }
 
-
-int stringToInt(const std::string &s) {
-  std::istringstream ss(s);
+int stringToInt(const string &s) {
+  istringstream ss(s);
   int result;
   ss >> result;
   return result;
 }
 
-void setSetting(const std::string& type, const std::string& value, IBot *bot) {
+void setSetting(const string& type, const string& value, IBot *bot) {
   if (type == "timebank") {
     bot->setTimebank(stringToInt(value));
   }
@@ -63,11 +61,11 @@ void setSetting(const std::string& type, const std::string& value, IBot *bot) {
     bot->setMyBotId(stringToInt(value));
   }
   else {
-    dbgx("Unknown setting <" + type + ">.");
+    dbg("Unknown setting <%s>.", type.c_str());
   }
 }
 
-void update(const std::string& player, const std::string& type, const std::string& value, IBot *bot) {
+void update(const string& player, const string& type, const string& value, IBot *bot) {
   if (player != "game" && player != bot->getBotName()) {
     // It's not my update!
     return;
@@ -90,7 +88,7 @@ void update(const std::string& player, const std::string& type, const std::strin
       bot->setMacroboard(transformedValues);
   }
   else {
-    dbgx("Unknown update <" + type + ">.");
+    dbg("Unknown update <%s>.", type.c_str());
   }
 }
 
@@ -106,7 +104,7 @@ void processCommand(const vector<string> &command, IBot *bot) {
         setSetting(command[1], command[2], bot);
     }
     else {
-        dbgx("Unknown command <" + command[0] + ">.");
+        dbg("Unknown command <%s>.", command[0].c_str());
     }
 }
 

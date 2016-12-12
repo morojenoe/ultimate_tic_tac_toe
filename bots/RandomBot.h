@@ -1,9 +1,7 @@
-//
-// Created by dima on 12.12.16.
-//
-
 #ifndef STRATEGY_RANDOMBOT_H
 #define STRATEGY_RANDOMBOT_H
+
+#include "../rng.h"
 
 class RandomBot : public IBot {
 public:

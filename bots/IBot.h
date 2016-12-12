@@ -2,7 +2,7 @@
 #define STRATEGY_IBOT_H
 
 #include <string>
-#include "position.h"
+#include "../position.h"
 
 class IBot {
 public:

@@ -4,8 +4,8 @@
 #include <iostream>
 
 #include "IBot.h"
-#include "rng.h"
-#include "position.h"
+#include "../rng.h"
+#include "../position.h"
 #include "RandomBot.h"
 
 pos RandomBot::makeMove(int time) {
@@ -15,6 +15,6 @@ pos RandomBot::makeMove(int time) {
       freeCells.push_back(i);
     }
   }
-  int randomCell = freeCells[rng.next() % freeCells.size()];
+  int randomCell = freeCells[this->rng.NextInt() % freeCells.size()];
   return pos(randomCell / 9, randomCell % 9);
 }
