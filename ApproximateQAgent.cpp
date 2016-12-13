@@ -7,21 +7,27 @@ ApproximateQAgent::ApproximateQAgent() {
 
 }
 
-double ApproximateQAgent::GetQValue(const std::shared_ptr<IEnvironment> &environment, const pos &action) {
+double ApproximateQAgent::GetQValue(const std::shared_ptr<IEnvironment>
+                                    &environment, const pos &action) {
   return std::inner_product(this->weights.begin(), this->weights.end(),
-                            this->feature_extractor.GetFeatures(environment), 0.0);
+                            this->feature_extractor.GetFeatures(environment),
+                            0.0);
 }
 
-void ApproximateQAgent::UpdateQValues(const std::shared_ptr<IEnvironment> &environment, const pos &action,
-                                      const std::shared_ptr<IEnvironment> &next_environment, double reward) {
+void ApproximateQAgent::UpdateQValues(const std::shared_ptr<IEnvironment> &environment,
+                                      const pos &action,
+                                      const std::shared_ptr<IEnvironment> &next_environment,
+                                      double reward) {
   auto features = this->feature_extractor.GetFeatures(environment);
   for (size_t i = 0; i < features.size(); ++i) {
     double difference = 0;
     if (next_environment.get()->IsTerminal()) {
       difference = reward - this->GetQValue(environment, action);
     } else {
-      auto best_action = this->GetBestAction(environment);
-      difference = (reward + this->discount*) - this->GetQValue(environment, action);
+      auto best_next_action = this->GetBestAction(environment);
+      difference = reward
+                   + this->discount*this->GetQValue(next_environment, best_next_action)
+                   - this->GetQValue(environment, action);
     }
     this->weights[i] += this->alpha*difference*features[i];
   }
