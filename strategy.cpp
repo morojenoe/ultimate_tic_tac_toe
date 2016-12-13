@@ -6,6 +6,7 @@
 #include "position.h"
 #include "bots/IBot.h"
 #include "bots/RandomBot.h"
+#include "bots/RLBot.h"
 
 #define MY_DEBUG
 
@@ -44,21 +45,21 @@ int stringToInt(const std::string &s) {
 void setSetting(const std::string& type, const std::string& value,
                 std::shared_ptr<IBot> bot) {
   if (type == "timebank") {
-    bot.get()->environment.get()->setTimebank(stringToInt(value));
+    bot.get()->environment->setTimebank(stringToInt(value));
   }
   else if (type == "time_per_move") {
-    bot.get()->environment.get()->setTimePerMove(stringToInt(value));
+    bot.get()->environment->setTimePerMove(stringToInt(value));
   }
   else if (type == "player_names") {
     std::vector<std::string> names;
     split(value.c_str(), ',', names);
-    bot.get()->environment.get()->setPlayerNames(names);
+    bot.get()->environment->setPlayerNames(names);
   }
   else if (type == "your_bot") {
-    bot.get()->environment.get()->setMyBotName(value);
+    bot.get()->environment->setMyBotName(value);
   }
   else if (type == "your_botid") {
-    bot.get()->environment.get()->setMyBotId(stringToInt(value));
+    bot.get()->environment->setMyBotId(stringToInt(value));
   }
   else {
     dbg("Unknown setting <%s>.", type.c_str());
@@ -68,16 +69,16 @@ void setSetting(const std::string& type, const std::string& value,
 void update(const std::string& player, const std::string& type,
             const std::string& value, std::shared_ptr<IBot> bot) {
 
-  if (player != "game" && player != bot.get()->environment.get()->getBotName()) {
+  if (player != "game" && player != bot.get()->environment->getBotName()) {
     // It's not my update!
     return;
   }
 
   if (type == "round") {
-    bot.get()->environment.get()->setRound(stringToInt(value));
+    bot.get()->environment->setRound(stringToInt(value));
   }
   else if (type == "move") {
-    bot.get()->environment.get()->setMove(stringToInt(value));
+    bot.get()->environment->setMove(stringToInt(value));
   }
   else if (type == "macroboard" || type == "field") {
     std::vector<std::string> rawValues;
@@ -85,9 +86,9 @@ void update(const std::string& player, const std::string& type,
     std::vector<int> transformedValues(rawValues.size());
     transform(rawValues.begin(), rawValues.end(), transformedValues.begin(), stringToInt);
     if (type == "field")
-      bot.get()->environment.get()->setBoard(transformedValues);
+      bot.get()->environment->setBoard(transformedValues);
     else
-      bot.get()->environment.get()->setMacroboard(transformedValues);
+      bot.get()->environment->setMacroboard(transformedValues);
   }
   else {
     dbg("Unknown update <%s>.", type.c_str());
@@ -114,7 +115,7 @@ void processCommand(const std::vector<std::string> &command,
 int main() {
   std::string line;
   std::vector<std::string> command;
-  std::shared_ptr<IBot> bot = std::make_shared<RandomBot>();
+  std::shared_ptr<IBot> bot = std::make_shared<RLBot>();
   while (getline(std::cin, line)) {
     processCommand(split(line.c_str(), ' ', command), bot);
   }

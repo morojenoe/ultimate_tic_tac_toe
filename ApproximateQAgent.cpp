@@ -10,9 +10,8 @@ ApproximateQAgent::ApproximateQAgent() {
 
 double ApproximateQAgent::GetQValue(
         const std::shared_ptr<IEnvironment> &environment, const pos &action) {
-  auto features = this->feature_extractor.GetFeatures
-          (std::shared_ptr<UltimateTicTacToeGame>
-                   (dynamic_cast<UltimateTicTacToeGame*>(environment.get())));
+  auto features = this->feature_extractor.GetFeatures(
+          dynamic_cast<UltimateTicTacToeGame*>(environment.get()));
   return std::inner_product(this->weights.begin(), this->weights.end(),
                             features.begin(),
                             0.0);
@@ -22,8 +21,8 @@ void ApproximateQAgent::UpdateQValues(const std::shared_ptr<IEnvironment> &envir
                                       const pos &action,
                                       const std::shared_ptr<IEnvironment> &next_environment,
                                       double reward) {
-  auto features = this->feature_extractor.GetFeatures((std::shared_ptr<UltimateTicTacToeGame>
-          (dynamic_cast<UltimateTicTacToeGame*>(environment.get()))));
+  auto ultimate_tictactoe_game = dynamic_cast<UltimateTicTacToeGame*>(environment.get());
+  auto features = this->feature_extractor.GetFeatures(ultimate_tictactoe_game);
   for (size_t i = 0; i < features.size(); ++i) {
     double difference = 0;
     if (next_environment.get()->IsTerminal()) {

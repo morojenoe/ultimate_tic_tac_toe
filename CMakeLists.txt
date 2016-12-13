@@ -13,6 +13,7 @@ set(SOURCE_FILES strategy.cpp
         ApproximateQAgent.cpp ApproximateQAgent.h
         SimpleExtractor.cpp SimpleExtractor.h
         IFeatureExtractor.cpp IFeatureExtractor.h
-        UltimateTicTacToeGame.cpp UltimateTicTacToeGame.h)
+        UltimateTicTacToeGame.cpp UltimateTicTacToeGame.h
+        bots/RLBot.cpp bots/RLBot.h)
 
 add_executable(strategy ${SOURCE_FILES})

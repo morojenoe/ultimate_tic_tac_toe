@@ -5,7 +5,7 @@
 
 #include "IEnvironment.h"
 
-class UltimateTicTacToeGame : IEnvironment {
+class UltimateTicTacToeGame : public IEnvironment {
 public:
   UltimateTicTacToeGame() = default;
 

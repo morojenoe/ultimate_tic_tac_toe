@@ -2,6 +2,7 @@
 #define STRATEGY_RANDOMBOT_H
 
 #include "../rng.h"
+#include "../position.h"
 
 class RandomBot : public IBot {
 public:
