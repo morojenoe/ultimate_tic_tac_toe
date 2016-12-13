@@ -1,16 +1,20 @@
-#include "ApproximateQAgent.h"
-
 #include <numeric>
 #include <cassert>
+
+#include "ApproximateQAgent.h"
+#include "UltimateTicTacToeGame.h"
 
 ApproximateQAgent::ApproximateQAgent() {
 
 }
 
-double ApproximateQAgent::GetQValue(const std::shared_ptr<IEnvironment>
-                                    &environment, const pos &action) {
+double ApproximateQAgent::GetQValue(
+        const std::shared_ptr<IEnvironment> &environment, const pos &action) {
+  auto features = this->feature_extractor.GetFeatures
+          (std::shared_ptr<UltimateTicTacToeGame>
+                   (dynamic_cast<UltimateTicTacToeGame*>(environment.get())));
   return std::inner_product(this->weights.begin(), this->weights.end(),
-                            this->feature_extractor.GetFeatures(environment),
+                            features.begin(),
                             0.0);
 }
 
@@ -18,7 +22,8 @@ void ApproximateQAgent::UpdateQValues(const std::shared_ptr<IEnvironment> &envir
                                       const pos &action,
                                       const std::shared_ptr<IEnvironment> &next_environment,
                                       double reward) {
-  auto features = this->feature_extractor.GetFeatures(environment);
+  auto features = this->feature_extractor.GetFeatures((std::shared_ptr<UltimateTicTacToeGame>
+          (dynamic_cast<UltimateTicTacToeGame*>(environment.get()))));
   for (size_t i = 0; i < features.size(); ++i) {
     double difference = 0;
     if (next_environment.get()->IsTerminal()) {

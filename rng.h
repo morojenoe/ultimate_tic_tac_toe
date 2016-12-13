@@ -13,7 +13,7 @@ public:
   double NextDouble();
 
 private:
-  static std::mt19937 rng;
+  std::mt19937 rng;
 };
 
 #endif //STRATEGY_RNG_H

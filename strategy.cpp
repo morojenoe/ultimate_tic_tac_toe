@@ -7,8 +7,6 @@
 #include "bots/IBot.h"
 #include "bots/RandomBot.h"
 
-using namespace std;
-
 #define MY_DEBUG
 
 #ifdef MY_DEBUG
@@ -25,9 +23,10 @@ void place_move(const pos &p) {
   fflush(stdout);
 }
 
-vector<string> &split(const char * const s, char delim, vector<string> &elems) {
-  stringstream ss(s);
-  string item;
+std::vector<std::string> &split(const char * const s, char delim,
+                                std::vector<std::string> &elems) {
+  std::stringstream ss(s);
+  std::string item;
   elems.clear();
   while (getline(ss, item, delim)) {
     elems.push_back(item);
@@ -35,64 +34,68 @@ vector<string> &split(const char * const s, char delim, vector<string> &elems) {
   return elems;
 }
 
-int stringToInt(const string &s) {
-  istringstream ss(s);
+int stringToInt(const std::string &s) {
+  std::istringstream ss(s);
   int result;
   ss >> result;
   return result;
 }
 
-void setSetting(const string& type, const string& value, IBot *bot) {
+void setSetting(const std::string& type, const std::string& value,
+                std::shared_ptr<IBot> bot) {
   if (type == "timebank") {
-    bot->setTimebank(stringToInt(value));
+    bot.get()->environment.get()->setTimebank(stringToInt(value));
   }
   else if (type == "time_per_move") {
-    bot->setTimePerMove(stringToInt(value));
+    bot.get()->environment.get()->setTimePerMove(stringToInt(value));
   }
   else if (type == "player_names") {
-    vector<string> names;
+    std::vector<std::string> names;
     split(value.c_str(), ',', names);
-    bot->setPlayerNames(names);
+    bot.get()->environment.get()->setPlayerNames(names);
   }
   else if (type == "your_bot") {
-    bot->setMyBotName(value);
+    bot.get()->environment.get()->setMyBotName(value);
   }
   else if (type == "your_botid") {
-    bot->setMyBotId(stringToInt(value));
+    bot.get()->environment.get()->setMyBotId(stringToInt(value));
   }
   else {
     dbg("Unknown setting <%s>.", type.c_str());
   }
 }
 
-void update(const string& player, const string& type, const string& value, IBot *bot) {
-  if (player != "game" && player != bot->getBotName()) {
+void update(const std::string& player, const std::string& type,
+            const std::string& value, std::shared_ptr<IBot> bot) {
+
+  if (player != "game" && player != bot.get()->environment.get()->getBotName()) {
     // It's not my update!
     return;
   }
 
   if (type == "round") {
-    bot->setRound(stringToInt(value));
+    bot.get()->environment.get()->setRound(stringToInt(value));
   }
   else if (type == "move") {
-    bot->setMove(stringToInt(value));
+    bot.get()->environment.get()->setMove(stringToInt(value));
   }
   else if (type == "macroboard" || type == "field") {
-    vector<string> rawValues;
+    std::vector<std::string> rawValues;
     split(value.c_str(), ',', rawValues);
-    vector<int> transformedValues(rawValues.size());
+    std::vector<int> transformedValues(rawValues.size());
     transform(rawValues.begin(), rawValues.end(), transformedValues.begin(), stringToInt);
     if (type == "field")
-      bot->setBoard(transformedValues);
+      bot.get()->environment.get()->setBoard(transformedValues);
     else
-      bot->setMacroboard(transformedValues);
+      bot.get()->environment.get()->setMacroboard(transformedValues);
   }
   else {
     dbg("Unknown update <%s>.", type.c_str());
   }
 }
 
-void processCommand(const vector<string> &command, IBot *bot) {
+void processCommand(const std::vector<std::string> &command,
+                    std::shared_ptr<IBot> bot) {
     if (command[0] == "action") {
         auto point = bot->makeMove(stringToInt(command[2]));
         place_move(point);
@@ -109,10 +112,10 @@ void processCommand(const vector<string> &command, IBot *bot) {
 }
 
 int main() {
-  string line;
-  vector<string> command;
-  IBot *bot = new RandomBot();
-  while (getline(cin, line)) {
+  std::string line;
+  std::vector<std::string> command;
+  std::shared_ptr<IBot> bot = std::make_shared<RandomBot>();
+  while (getline(std::cin, line)) {
     processCommand(split(line.c_str(), ' ', command), bot);
   }
   return 0;

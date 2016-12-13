@@ -6,7 +6,7 @@
 #include <memory>
 
 #include "IAgent.h"
-#include "IEnvironment.h"
+#include "UltimateTicTacToeGame.h"
 #include "position.h"
 #include "SimpleExtractor.h"
 #include "rng.h"
@@ -15,7 +15,8 @@ class ApproximateQAgent : public IAgent {
 public:
   ApproximateQAgent();
 
-  double GetQValue(const std::shared_ptr<IEnvironment> &environment, const pos &action);
+  double GetQValue(const std::shared_ptr<IEnvironment> &environment,
+                   const pos &action);
   void UpdateQValues(const std::shared_ptr<IEnvironment> &environment,
                      const pos &action,
                      const std::shared_ptr<IEnvironment> &next_environment,

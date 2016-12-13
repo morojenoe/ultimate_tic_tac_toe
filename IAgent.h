@@ -2,7 +2,7 @@
 #define STRATEGY_IACTION_H
 
 
-#include <bits/shared_ptr.h>
+#include <memory>
 #include "position.h"
 #include "IEnvironment.h"
 

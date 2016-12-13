@@ -3,12 +3,13 @@
 
 
 #include <vector>
-#include <bits/shared_ptr.h>
-#include "IEnvironment.h"
+#include <memory>
+#include "UltimateTicTacToeGame.h"
 
 class IFeatureExtractor {
 public:
-  virtual std::vector<double> GetFeatures(std::shared_ptr<IEnvironment> environtment) = 0;
+  virtual std::vector<double> GetFeatures(
+          std::shared_ptr<UltimateTicTacToeGame> environtment) = 0;
 };
 
 

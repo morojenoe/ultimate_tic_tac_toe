@@ -6,7 +6,8 @@
 
 class SimpleExtractor : public IFeatureExtractor {
 public:
-  virtual std::vector<double> GetFeatures(std::shared_ptr<IEnvironment> environtment) override;
+  virtual std::vector<double> GetFeatures(
+          std::shared_ptr<UltimateTicTacToeGame> environment) override;
 };
 
 

@@ -11,7 +11,7 @@ public:
   virtual ~IEnvironment() {}
 
   virtual void Init();
-  virtual void DoAction(pos action, double &reward) = 0;
+  virtual void DoAction(const pos &action, double &reward) = 0;
   virtual std::vector<pos> GetPossibleActions() = 0;
   virtual bool IsTerminal();
 };
