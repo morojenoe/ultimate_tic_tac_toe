@@ -26,6 +26,9 @@ public:
   void setMacroboard(const std::vector<int> &macroboard);
   std::string getBotName();
 
+  int GetRound();
+  int GetMove();
+
 protected:
   // static settings
   int timebank;

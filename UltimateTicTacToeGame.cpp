@@ -78,3 +78,11 @@ std::vector<pos> UltimateTicTacToeGame::GetPossibleActions() {
   }
   return free_cells;
 }
+
+int UltimateTicTacToeGame::GetRound() {
+  return this->current_round;
+}
+
+int UltimateTicTacToeGame::GetMove() {
+  return this->current_move;
+}

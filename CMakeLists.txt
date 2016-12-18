@@ -28,5 +28,5 @@ find_package(GTest REQUIRED)
 find_package(Threads REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
 
-add_executable(run_tests  tests/test_ultimate_tictactoe_game.cpp ${SOURCE_FILES})
+add_executable(run_tests  tests/test_ultimate_tictactoe_game.cpp ${SOURCE_FILES} tests/test_rng.cpp)
 target_link_libraries(run_tests ${GTEST_BOTH_LIBRARIES} pthread)

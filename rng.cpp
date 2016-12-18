@@ -20,6 +20,6 @@ double RNG::NextDouble() {
 }
 
 int RNG::NextInt(int from, int to) {
-  static std::uniform_int_distribution<int> int_distribution(from, to);
+  std::uniform_int_distribution<int> int_distribution(from, to);
   return int_distribution(this->rng);
 }
