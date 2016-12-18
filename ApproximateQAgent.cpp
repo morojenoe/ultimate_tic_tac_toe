@@ -25,7 +25,7 @@ void ApproximateQAgent::UpdateQValues(const std::shared_ptr<IEnvironment> &envir
   auto features = this->feature_extractor.GetFeatures(ultimate_tictactoe_game);
   for (size_t i = 0; i < features.size(); ++i) {
     double difference = 0;
-    if (next_environment.get()->IsTerminal()) {
+    if (next_environment->IsTerminal()) {
       difference = reward - this->GetQValue(environment, action);
     } else {
       auto best_next_action = this->GetBestAction(environment);
@@ -41,7 +41,7 @@ pos ApproximateQAgent::GetBestAction(const std::shared_ptr<IEnvironment> &enviro
   pos best_action(-1, -1);
   double best_q_value = -1e20;
 
-  auto possible_actions = environment.get()->GetPossibleActions();
+  auto possible_actions = environment->GetPossibleActions();
   if (possible_actions.empty())
     assert("The state is terminal. No action exists.");
   for (size_t i = 0; i < possible_actions.size(); ++i) {
@@ -57,7 +57,7 @@ pos ApproximateQAgent::GetBestAction(const std::shared_ptr<IEnvironment> &enviro
 
 pos ApproximateQAgent::GetAction(const std::shared_ptr<IEnvironment> &environment) {
   if (this->rng.NextDouble() < this->exploration_rate) {
-    auto possible_actions = environment.get()->GetPossibleActions();
+    auto possible_actions = environment->GetPossibleActions();
     if (possible_actions.empty())
       assert("The state is terminal. No action exists.");
     return possible_actions[rng.NextInt(0, (int)possible_actions.size() - 1)];

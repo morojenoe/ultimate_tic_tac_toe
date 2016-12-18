@@ -3,6 +3,6 @@
 
 IBot::~IBot() {}
 
-IBot::IBot() {
-  this->environment = std::make_shared<UltimateTicTacToeGame>();
+IBot::IBot() : environment(std::make_shared<UltimateTicTacToeGame>()) {
+
 }
