@@ -8,17 +8,7 @@
 #include "bots/IBot.h"
 #include "bots/RandomBot.h"
 #include "bots/RLBot.h"
-
-#define MY_DEBUG
-
-#ifdef MY_DEBUG
-#define dbgx(x) {cerr << #x << " = " << x << endl;}
-#define dbg(...) {fprintf(stderr, __VA_ARGS__); fflush(stderr);}
-#else
-#define dbgx(r) {}
-#define dbg(...) {}
-#endif
-
+#include "debug_helpers.h"
 
 void place_move(const pos &p) {
   printf("place_move %d %d\n", p.c, p.r);
