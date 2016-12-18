@@ -2,6 +2,7 @@
 #include <vector>
 #include <sstream>
 #include <algorithm>
+#include <cassert>
 
 #include "position.h"
 #include "bots/IBot.h"
@@ -24,15 +25,25 @@ void place_move(const pos &p) {
   fflush(stdout);
 }
 
-std::vector<std::string> &split(const char * const s, char delim,
-                                std::vector<std::string> &elems) {
-  std::stringstream ss(s);
-  std::string item;
-  elems.clear();
-  while (getline(ss, item, delim)) {
-    elems.push_back(item);
+std::vector<std::string> split(const std::string &s, const std::string &&delims) {
+  std::vector<std::string> result;
+
+  std::string cur_str = "";
+  for (auto it = s.begin(); it != s.end(); ++it) {
+    if (std::find(delims.begin(), delims.end(), *it) == delims.end()) {
+      cur_str += *it;
+    } else {
+      if (cur_str == "")
+        dbg("empty string extracted in split function");
+      result.push_back(cur_str);
+      cur_str = "";
+    }
   }
-  return elems;
+  if (cur_str != "") {
+    result.push_back(cur_str);
+  }
+
+  return result;
 }
 
 int stringToInt(const std::string &s) {
@@ -51,15 +62,14 @@ void setSetting(const std::string& type, const std::string& value,
     bot.get()->environment->setTimePerMove(stringToInt(value));
   }
   else if (type == "player_names") {
-    std::vector<std::string> names;
-    split(value.c_str(), ',', names);
-    bot.get()->environment->setPlayerNames(names);
+    std::vector<std::string> names = split(value, ",");
+    bot->environment->setPlayerNames(names);
   }
   else if (type == "your_bot") {
-    bot.get()->environment->setMyBotName(value);
+    bot->environment->setMyBotName(value);
   }
   else if (type == "your_botid") {
-    bot.get()->environment->setMyBotId(stringToInt(value));
+    bot->environment->setMyBotId(stringToInt(value));
   }
   else {
     dbg("Unknown setting <%s>.", type.c_str());
@@ -81,8 +91,7 @@ void update(const std::string& player, const std::string& type,
     bot.get()->environment->setMove(stringToInt(value));
   }
   else if (type == "macroboard" || type == "field") {
-    std::vector<std::string> rawValues;
-    split(value.c_str(), ',', rawValues);
+    std::vector<std::string> rawValues = split(value, ",;");
     std::vector<int> transformedValues(rawValues.size());
     transform(rawValues.begin(), rawValues.end(), transformedValues.begin(), stringToInt);
     if (type == "field")
@@ -114,10 +123,9 @@ void processCommand(const std::vector<std::string> &command,
 
 int main() {
   std::string line;
-  std::vector<std::string> command;
   std::shared_ptr<IBot> bot = std::make_shared<RLBot>();
   while (getline(std::cin, line)) {
-    processCommand(split(line.c_str(), ' ', command), bot);
+    processCommand(split(line.c_str(), " "), bot);
   }
   return 0;
 }

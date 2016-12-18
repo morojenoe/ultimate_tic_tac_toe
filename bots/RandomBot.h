@@ -3,9 +3,11 @@
 
 #include "../rng.h"
 #include "../position.h"
+#include "IBot.h"
 
 class RandomBot : public IBot {
 public:
+  RandomBot();
   pos makeMove(int time) override;
 
 private:
