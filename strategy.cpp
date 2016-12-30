@@ -58,7 +58,7 @@ void setSetting(const std::string& type, const std::string& value,
 void update(const std::string& player, const std::string& type,
             const std::string& value, const std::shared_ptr<IBot> &bot) {
 
-  if (player != "game" && player != bot.get()->environment->getBotName()) {
+  if (player != "game" && player != bot->environment->getBotName()) {
     // It's not my update!
     return;
   }
