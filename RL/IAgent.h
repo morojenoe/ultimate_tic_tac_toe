@@ -4,14 +4,14 @@
 
 #include <memory>
 #include "../position.h"
-#include "IEnvironment.h"
+#include "UltimateTicTacToeGame.h"
 
 class IAgent {
 public:
   IAgent() {}
   virtual ~IAgent() {}
 
-  virtual pos GetAction(const std::shared_ptr<IEnvironment> &environment) = 0;
+  virtual pos GetAction(const std::shared_ptr<UltimateTicTacToeGame> &environment) = 0;
 };
 
 

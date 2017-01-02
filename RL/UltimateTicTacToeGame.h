@@ -2,18 +2,22 @@
 #define STRATEGY_ULTIMATETICTACTOEGAME_H
 
 #include <string>
+#include <vector>
+#include <memory>
 
-#include "IEnvironment.h"
+#include "../position.h"
 
-class UltimateTicTacToeGame : public IEnvironment {
+class UltimateTicTacToeGame {
 public:
   UltimateTicTacToeGame() = default;
 
   int GetNumberOfBigSquaresIWin();
   int GetNumberOfBigSquaresOpponentWin();
 
-  void DoAction(const pos &action, double &reward) override;
-  std::vector<pos> GetPossibleActions() override;
+  std::vector<pos> GetPossibleActions();
+  std::shared_ptr<UltimateTicTacToeGame> DoAction(const pos &action, double &reward);
+
+  bool IsTerminal();
 
   void setTimebank(int timebank);
   void setTimePerMove(int time_per_move);
@@ -28,6 +32,9 @@ public:
 
   int GetRound();
   int GetMove();
+
+  int GetMacroboardPos(const pos &move);
+  int GetBoardPos(const pos &move);
 
 protected:
   // static settings
@@ -47,6 +54,12 @@ protected:
 private:
   int CalculateNumberOfSquaresPlayerWin(
           const std::vector<int> &board, int player_id);
+  void ApplyAction(const pos &action);
+  int GetStateInSmallBoard(const std::vector<int> &board) const;
+  std::vector<int> ExtractSmallBoard(int id) const;
+  bool IsWinBunch(int first, int second, int third) const;
+  bool IsDraw(const std::vector<int> &small_board) const;
+  bool CanMove(const std::vector<int> &small_board) const;
 };
 
 

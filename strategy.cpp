@@ -106,5 +106,8 @@ int main() {
   while (getline(std::cin, line)) {
     processCommand(split(line.c_str(), ' '), bot);
   }
+  auto bot_for_dump = dynamic_cast<RLBot*>(bot.get());
+  auto agent = bot_for_dump->getAgent();
+  agent.dumpWeights();
   return 0;
 }

@@ -15,14 +15,15 @@ class ApproximateQAgent : public IAgent {
 public:
   ApproximateQAgent();
 
-  double GetQValue(const std::shared_ptr<IEnvironment> &environment,
+  double GetQValue(const std::shared_ptr<UltimateTicTacToeGame> &environment,
                    const pos &action);
-  void UpdateQValues(const std::shared_ptr<IEnvironment> &environment,
+  void UpdateQValues(const std::shared_ptr<UltimateTicTacToeGame> &environment,
                      const pos &action,
-                     const std::shared_ptr<IEnvironment> &next_environment,
+                     const std::shared_ptr<UltimateTicTacToeGame> &next_environment,
                      double reward);
-  pos GetAction(const std::shared_ptr<IEnvironment> &environment) override;
-  pos GetBestAction(const std::shared_ptr<IEnvironment> &environment);
+  pos GetAction(const std::shared_ptr<UltimateTicTacToeGame> &environment) override;
+  pos GetBestAction(const std::shared_ptr<UltimateTicTacToeGame> &environment);
+  void dumpWeights();
 
 protected:
   RNG rng;

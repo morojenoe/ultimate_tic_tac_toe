@@ -8,7 +8,6 @@ set(SOURCE_FILES
         rng.cpp rng.h
         bots/IBot.cpp bots/IBot.h
         bots/RandomBot.cpp bots/RandomBot.h
-        RL/IEnvironment.cpp RL/IEnvironment.h
         RL/IAgent.cpp RL/IAgent.h
         RL/ApproximateQAgent.cpp RL/ApproximateQAgent.h
         RL/SimpleExtractor.cpp RL/SimpleExtractor.h

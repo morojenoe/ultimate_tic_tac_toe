@@ -9,7 +9,7 @@
 class IFeatureExtractor {
 public:
   virtual std::vector<double> GetFeatures(
-          UltimateTicTacToeGame *environment) = 0;
+          const std::shared_ptr<UltimateTicTacToeGame> &environment) = 0;
 };
 
 

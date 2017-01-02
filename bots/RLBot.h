@@ -8,7 +8,7 @@
 class RLBot : public IBot {
 public:
   pos makeMove(int time) override;
-
+  ApproximateQAgent getAgent();
 protected:
   ApproximateQAgent agent;
 };

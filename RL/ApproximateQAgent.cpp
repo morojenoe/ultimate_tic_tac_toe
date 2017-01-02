@@ -1,28 +1,46 @@
 #include <numeric>
 #include <cassert>
+#include <cstdio>
+#include <ios>
+#include <fstream>
+#include <sstream>
 
 #include "ApproximateQAgent.h"
 #include "UltimateTicTacToeGame.h"
 
 ApproximateQAgent::ApproximateQAgent() {
+  std::ifstream file("/home/dima/Projects/theaigames/tictactoe/rl/weights.txt", std::ios::in);
+  char buf[5000];
+  std::stringstream ss;
+  while (file.getline(buf, 5000)) {
+    ss.clear();
+    ss << buf;
+  }
+  this->weights.clear();
+  double weight;
+  while (ss >> weight) {
+    this->weights.push_back(weight);
+  }
 
+  file.close();
 }
 
 double ApproximateQAgent::GetQValue(
-        const std::shared_ptr<IEnvironment> &environment, const pos &action) {
-  auto features = this->feature_extractor.GetFeatures(
-          dynamic_cast<UltimateTicTacToeGame*>(environment.get()));
+        const std::shared_ptr<UltimateTicTacToeGame> &environment, const pos &action) {
+  auto features = this->feature_extractor.GetFeatures(environment);
   return std::inner_product(this->weights.begin(), this->weights.end(),
                             features.begin(),
                             0.0);
 }
 
-void ApproximateQAgent::UpdateQValues(const std::shared_ptr<IEnvironment> &environment,
+void ApproximateQAgent::UpdateQValues(const std::shared_ptr<UltimateTicTacToeGame> &environment,
                                       const pos &action,
-                                      const std::shared_ptr<IEnvironment> &next_environment,
+                                      const std::shared_ptr<UltimateTicTacToeGame> &next_environment,
                                       double reward) {
-  auto ultimate_tictactoe_game = dynamic_cast<UltimateTicTacToeGame*>(environment.get());
-  auto features = this->feature_extractor.GetFeatures(ultimate_tictactoe_game);
+  auto features = this->feature_extractor.GetFeatures(environment);
+  if (this->weights.size() == 0) {
+    this->weights.resize(features.size());
+  }
   for (size_t i = 0; i < features.size(); ++i) {
     double difference = 0;
     if (next_environment->IsTerminal()) {
@@ -37,7 +55,7 @@ void ApproximateQAgent::UpdateQValues(const std::shared_ptr<IEnvironment> &envir
   }
 }
 
-pos ApproximateQAgent::GetBestAction(const std::shared_ptr<IEnvironment> &environment) {
+pos ApproximateQAgent::GetBestAction(const std::shared_ptr<UltimateTicTacToeGame> &environment) {
   pos best_action(-1, -1);
   double best_q_value = -1e20;
 
@@ -55,7 +73,7 @@ pos ApproximateQAgent::GetBestAction(const std::shared_ptr<IEnvironment> &enviro
   return best_action;
 }
 
-pos ApproximateQAgent::GetAction(const std::shared_ptr<IEnvironment> &environment) {
+pos ApproximateQAgent::GetAction(const std::shared_ptr<UltimateTicTacToeGame> &environment) {
   if (this->rng.NextDouble() < this->exploration_rate) {
     auto possible_actions = environment->GetPossibleActions();
     if (possible_actions.empty())
@@ -64,4 +82,16 @@ pos ApproximateQAgent::GetAction(const std::shared_ptr<IEnvironment> &environmen
   } else {
     return this->GetBestAction(environment);
   }
+}
+
+void ApproximateQAgent::dumpWeights() {
+  std::ofstream file("/home/dima/Projects/theaigames/tictactoe/rl/weights.txt", std::ios::app);
+  for (size_t i = 0; i < this->weights.size(); ++i) {
+    file << this->weights[i];
+    if (i + 1 == this->weights.size())
+      file << "\n";
+    else
+      file << " ";
+  }
+  file.close();
 }
