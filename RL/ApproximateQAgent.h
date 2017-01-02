@@ -7,9 +7,9 @@
 
 #include "IAgent.h"
 #include "UltimateTicTacToeGame.h"
-#include "position.h"
+#include "../position.h"
 #include "SimpleExtractor.h"
-#include "rng.h"
+#include "../rng.h"
 
 class ApproximateQAgent : public IAgent {
 public:

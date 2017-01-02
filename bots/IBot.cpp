@@ -1,4 +1,4 @@
-#include "../UltimateTicTacToeGame.h"
+#include "../RL/UltimateTicTacToeGame.h"
 #include "IBot.h"
 
 IBot::~IBot() {}

@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <vector>
 
-#include "../UltimateTicTacToeGame.h"
+#include "../RL/UltimateTicTacToeGame.h"
 #include "../position.h"
 
 namespace {

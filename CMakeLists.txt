@@ -1,8 +1,6 @@
 cmake_minimum_required(VERSION 3.6)
 project(strategy)
 
-option(tests "Build all tests." ON)
-
 set(CMAKE_CXX_STANDARD 14)
 
 set(SOURCE_FILES
@@ -10,12 +8,12 @@ set(SOURCE_FILES
         rng.cpp rng.h
         bots/IBot.cpp bots/IBot.h
         bots/RandomBot.cpp bots/RandomBot.h
-        IEnvironment.cpp IEnvironment.h
-        IAgent.cpp IAgent.h
-        ApproximateQAgent.cpp ApproximateQAgent.h
-        SimpleExtractor.cpp SimpleExtractor.h
-        IFeatureExtractor.cpp IFeatureExtractor.h
-        UltimateTicTacToeGame.cpp UltimateTicTacToeGame.h
+        RL/IEnvironment.cpp RL/IEnvironment.h
+        RL/IAgent.cpp RL/IAgent.h
+        RL/ApproximateQAgent.cpp RL/ApproximateQAgent.h
+        RL/SimpleExtractor.cpp RL/SimpleExtractor.h
+        RL/IFeatureExtractor.cpp RL/IFeatureExtractor.h
+        RL/UltimateTicTacToeGame.cpp RL/UltimateTicTacToeGame.h
         bots/RLBot.cpp bots/RLBot.h)
 
 set(STRATEGY_SOURCE_FILES strategy.cpp ${SOURCE_FILES})

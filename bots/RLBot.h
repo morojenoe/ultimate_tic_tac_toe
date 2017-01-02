@@ -3,7 +3,7 @@
 
 
 #include "IBot.h"
-#include "../ApproximateQAgent.h"
+#include "../RL/ApproximateQAgent.h"
 
 class RLBot : public IBot {
 public:

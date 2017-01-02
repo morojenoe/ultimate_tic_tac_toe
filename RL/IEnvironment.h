@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "position.h"
+#include "../position.h"
 
 class IEnvironment {
 public:

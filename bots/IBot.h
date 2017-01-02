@@ -4,7 +4,7 @@
 #include <string>
 #include <memory>
 #include "../position.h"
-#include "../UltimateTicTacToeGame.h"
+#include "../RL/UltimateTicTacToeGame.h"
 
 class IBot {
 public:

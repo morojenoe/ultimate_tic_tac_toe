@@ -3,7 +3,7 @@
 
 
 #include <memory>
-#include "position.h"
+#include "../position.h"
 #include "IEnvironment.h"
 
 class IAgent {
